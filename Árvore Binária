@@ -1,0 +1,144 @@
+class No_arvore:
+    def __init__(self,chave=None,esq = None, dir=None):
+        self.chave = chave
+        self.esq = esq
+        self.dir = dir
+        
+def insere(raiz,node):
+    '''Insere elementos na árvore binária'''
+    
+    # confere se a árvore está vazia
+    if not raiz:
+        return node
+    
+    else:
+        # se o nó for menor que a raiz, insere na esquerda
+        if raiz.chave >= node.chave:
+            raiz.esq = insere(raiz.esq,node)
+        # se o nó for maior que a raiz, insere na direita
+        elif raiz.chave < node.chave:
+            raiz.dir = insere(raiz.dir,node)
+    return raiz
+    
+
+def busca(raiz,chave):
+    '''Procura por uma chave na árvore binária'''
+    
+    # a chave não está na árvore
+    if not raiz:
+        return False
+    
+    # a chave procurada foi encontrda
+    if raiz.chave == chave:
+        return True
+    
+    # a chave está nos nós da esquerda
+    if raiz.chave > chave:
+        return busca(raiz.esq,chave)
+    # a chave está nos nós da direita
+    else:
+        return busca(raiz.dir,chave)
+
+def minimo(raiz):
+    '''Procura o menor valor da árvore'''
+    
+    # percorre a árvore até chegar no nó mais a esquerda
+    no = raiz
+    while no.esq != None:
+        no = no.esq
+    return no.chave
+
+
+def maximo(raiz):
+    '''Procura o maior valor da árvore'''
+    
+    # percorre a árvore até chegar no nó mais a direita
+    no = raiz
+    while no.dir != None:
+        no = no.dir
+    return no.chave
+
+def altura(raiz):
+    '''Retorna o número de níveis que a árvore possui'''
+    
+    # confere se a árvore está vazia
+    if not raiz:
+        return 0
+    # pega a maior altura e soma com a altura da raiz(1)
+    return max(altura(raiz.esq), altura(raiz.dir)) + 1
+
+def eh_balanciada(raiz):
+    '''Confere se a árvore é balanceada'''
+    
+    # Uma árvore vazia é balanciada
+    if not raiz:
+        return True
+    
+    altura_esq = altura(raiz.esq)
+    altura_dir = altura(raiz.dir)
+    #Confere se as alturas diferem em mais de uma unidade
+    if abs(altura_dir - altura_esq) > 1:
+        return False
+    
+    return eh_balanciada(raiz.esq) and eh_balanciada(raiz.dir)
+
+def preorder(raiz):
+    if raiz:
+        print(raiz.chave, end=' ')
+        preorder(raiz.esq)
+        preorder(raiz.dir)
+
+def inorder(raiz):
+    if raiz:
+        inorder(raiz.esq)
+        print(raiz.chave, end=' ')
+        inorder(raiz.dir)
+
+def posorder(raiz):
+    if raiz:
+        posorder(raiz.esq)
+        posorder(raiz.dir)
+        print(raiz.chave, end=' ')
+
+def busca_largura(raiz):
+    '''Imprime os valores da árvore por nível'''
+    fila = []
+    fila.append(raiz)
+    while len(fila) > 0:
+        no = fila[0]
+        fila.pop(0)
+        print(no.chave, end=' ')
+        if no.esq:
+            fila.append(no.esq)
+        if no.dir:
+            fila.append(no.dir)
+    return print()
+
+
+'''Árvore teste'''
+raiz = No_arvore(50)
+raiz = insere(raiz, No_arvore(17))
+raiz = insere(raiz, No_arvore(72))
+raiz = insere(raiz, No_arvore(12))
+raiz = insere(raiz, No_arvore(23))
+raiz = insere(raiz, No_arvore(54))
+raiz = insere(raiz, No_arvore(76))
+raiz = insere(raiz, No_arvore(9))
+raiz = insere(raiz, No_arvore(14))
+raiz = insere(raiz, No_arvore(19))
+raiz = insere(raiz, No_arvore(67))
+
+'''Chamada das funções'''
+print(busca(raiz,14))
+print(busca(raiz,58))
+print(minimo(raiz))
+print(maximo(raiz))
+print(altura(raiz))
+print(eh_balanciada(raiz))
+preorder(raiz)
+print()
+inorder(raiz)
+print()
+posorder(raiz)
+print()
+busca_largura(raiz)
