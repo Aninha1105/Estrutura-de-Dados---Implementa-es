@@ -1,3 +1,4 @@
+# Implementação de um Árvore binária com recursão + funções auxiliares
 class No_arvore:
     def __init__(self,chave=None,esq = None, dir=None):
         self.chave = chave
