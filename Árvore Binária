@@ -1,4 +1,3 @@
-# Implementação de um Árvore binária com recursão + funções auxiliares
 class No_arvore:
     def __init__(self,chave=None,esq = None, dir=None):
         self.chave = chave
@@ -103,17 +102,33 @@ def posorder(raiz):
 
 def busca_largura(raiz):
     '''Imprime os valores da árvore por nível'''
-    fila = []
-    fila.append(raiz)
-    while len(fila) > 0:
-        no = fila[0]
-        fila.pop(0)
+    fila_normal = []
+    fila_invertida = []
+    fila_normal.append(raiz)
+    while len(fila_normal) > 0:
+        no = fila_normal[0]
+        fila_invertida.append(no.chave)
+        fila_normal.pop(0)
         print(no.chave, end=' ')
         if no.esq:
-            fila.append(no.esq)
+            fila_normal.append(no.esq)
         if no.dir:
-            fila.append(no.dir)
+            fila_normal.append(no.dir)
+    print()
+    while len(fila_invertida) > 0:
+        print(fila_invertida.pop(-1),end=' ')
     return print()
+
+def simetria(raiz):
+    def check_simetria(raiz_esq,raiz_dir):
+        if not raiz_esq and not raiz_dir:
+            return True
+        elif raiz_esq and raiz_dir:
+            return (raiz_esq.chave == raiz_dir.chave and
+                    check_simetria(raiz_esq.esq,raiz_dir.dir) and
+                    check_simetria(raiz_esq.dir,raiz_dir.esq))
+        return False
+    return not raiz or check_simetria(raiz.esq,raiz.dir)
 
 
 '''Árvore teste'''
@@ -143,3 +158,4 @@ print()
 posorder(raiz)
 print()
 busca_largura(raiz)
+print(simetria(raiz))
